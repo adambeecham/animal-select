@@ -61,50 +61,42 @@ export default {
 		date: String,
 		description: String,
 	},
-	data(){
-		return {
-			zIndex: 50,
-			slideDetail: "",
-			zoomImage: "",
-		}
-	},
 	mounted() {
-		document.body.className = this.$options.name;
-		const ewone = 100;
+		document.body.classList.add = 'ready';
 	},
 	methods: {
 		expandDetail: function (event) {
-
 			const currentTarget = event.currentTarget;
-			const browserHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-			const scrollPosition = (window.pageYOffset || document.documentElement.scrollTop) - (document.documentElement.clientTop || 0);
-			const currentTargetOffsetTop = currentTarget.offsetTop;
-
-			if ( currentTarget.classList.contains('transformed') ) {
-				currentTarget.classList.remove('transformed');
-			} else {
-				currentTarget.classList.add('transformed');
-			}
-
-			if ( this.zoomImage == "" ) {
-				this.zoomImage = anime({
+			if ( !currentTarget.classList.contains('open') ) {
+				const browserHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+				const scrollPosition = (window.pageYOffset || document.documentElement.scrollTop) - (document.documentElement.clientTop || 0);
+				anime({
 					targets: currentTarget.childNodes[0],
-					top: scrollPosition - currentTargetOffsetTop + 20,
+					top: scrollPosition - currentTarget.offsetTop + 20,
 					height: ( browserHeight > 600 ? browserHeight - 40 : 560 ),
 					width: 350,
-					duration: 600,
+					duration: 550,
 					easing: 'easeInOutBack',
-					update: function(anim) {
-						if ( anim.progress == 0 ) {
-							currentTarget.style.zIndex = 20;
-						} else {
-							currentTarget.style.zIndex = 800;
-						}
+					begin: function(anim) {
+						currentTarget.classList.add('open');
+						currentTarget.style.zIndex = 800;
 					},
 				});
 			} else {
-				this.zoomImage.reverse();
-				this.zoomImage.play();
+				anime({
+					targets: currentTarget.childNodes[0],
+					top: 0,
+					height: 200,
+					width: 175,
+					duration: 550,
+					easing: 'easeInOutQuart',
+					begin: function(anim) {
+						currentTarget.classList.remove('open');
+					},
+					complete: function(anim) {
+						currentTarget.style.zIndex = 20;
+					},
+				});
 			}
 		},
 	}
@@ -123,7 +115,7 @@ export default {
 			transition: background 0.55s;
 			background: rgba($color__black, 0);
 		}
-		&.transformed {
+		&.open {
 			.back-arrow {
 				opacity: 1;
 				transform: translateX(0);
