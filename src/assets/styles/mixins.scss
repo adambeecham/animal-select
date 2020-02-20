@@ -1,0 +1,21 @@
+
+$color__black: #626262;
+$color__dark-grey: #7c7c7c;
+$color__medium-grey: #919191;
+$color__light-grey: #bababa;
+$color__teal: #306060;
+
+@mixin sofia-pro-bold {
+	font-family: sofia-pro, sans-serif;
+	font-weight: 700;
+	font-style: normal;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+@mixin sofia-pro {
+	font-family: sofia-pro, sans-serif;
+	font-weight: 400;
+	font-style: normal;
+	// -webkit-font-smoothing: antialiased;
+	// -moz-osx-font-smoothing: grayscale;
+}
